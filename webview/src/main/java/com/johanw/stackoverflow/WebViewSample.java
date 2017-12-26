@@ -15,10 +15,7 @@
     import javafx.scene.control.TabPane;
     import javafx.scene.image.WritableImage;
     import javafx.scene.input.MouseEvent;
-    import javafx.scene.layout.BorderPane;
-    import javafx.scene.layout.HBox;
-    import javafx.scene.layout.Priority;
-    import javafx.scene.layout.Region;
+    import javafx.scene.layout.*;
     import javafx.scene.paint.Color;
     import javafx.scene.web.WebEngine;
     import javafx.scene.web.WebView;
@@ -33,6 +30,10 @@
     public class WebViewSample extends Application {
         private Scene scene;
         private TheBrowser theBrowser;
+
+        private void setLabel(Label label) {
+            label.setText("" + theBrowser.browser.isVisible());
+        }
 
         @Override
         public void start(Stage primaryStage) {
@@ -57,28 +58,58 @@
             {
                 Tab tab = new Tab();
                 tab.setText("Other tab");
-                HBox hbox = new HBox();
-                Button button = new Button("Screenshot");
-                button.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                        new EventHandler<MouseEvent>() {
-                            @Override public void handle(MouseEvent e) {
-                                WritableImage image = theBrowser.getBrowser().snapshot(null, null);
-                                File file = new File("test.png");
-                                RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
-                                try {
-                                    ImageIO.write(
-                                            renderedImage,
-                                            "png",
-                                            file);
-                                } catch (IOException e1) {
-                                    e1.printStackTrace();
-                                }
 
-                            }
-                        });
-                hbox.getChildren().add(button);
-                hbox.setAlignment(Pos.CENTER);
-                tab.setContent(hbox);
+                HBox hbox0 = new HBox();
+                {
+                    Button button = new Button("Screenshot");
+                    button.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                            new EventHandler<MouseEvent>() {
+                                @Override
+                                public void handle(MouseEvent e) {
+                                    WritableImage image = theBrowser.getBrowser().snapshot(null, null);
+                                    File file = new File("test.png");
+                                    RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
+                                    try {
+                                        ImageIO.write(
+                                                renderedImage,
+                                                "png",
+                                                file);
+                                    } catch (IOException e1) {
+                                        e1.printStackTrace();
+                                    }
+
+                                }
+                            });
+                    hbox0.getChildren().add(button);
+                    hbox0.setAlignment(Pos.CENTER);
+                }
+
+                HBox hbox1 = new HBox();
+                Label visibleLabel = new Label("");
+                {
+                    hbox1.getChildren().add(new Label("webView.isVisible() = "));
+                    hbox1.getChildren().add(visibleLabel);
+                    hbox1.setAlignment(Pos.CENTER);
+                    setLabel(visibleLabel);
+                }
+                HBox hbox2 = new HBox();
+                {
+                    Button button = new Button("Refresh");
+                    button.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                            new EventHandler<MouseEvent>() {
+                                @Override
+                                public void handle(MouseEvent e) {
+                                    setLabel(visibleLabel);
+                                }
+                            });
+                    hbox2.getChildren().add(button);
+                    hbox2.setAlignment(Pos.CENTER);
+                }
+                VBox vbox = new VBox();
+                vbox.getChildren().addAll(hbox0);
+                vbox.getChildren().addAll(hbox1);
+                vbox.getChildren().addAll(hbox2);
+                tab.setContent(vbox);
                 tabPane.getTabs().add(tab);
             }
 
