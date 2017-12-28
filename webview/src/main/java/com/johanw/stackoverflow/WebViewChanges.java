@@ -13,23 +13,11 @@ public class WebViewChanges {
 //    public static String MY_WEBVIEW_CLASSNAME = WebView.class.getName();
 
     public WebView newWebView() {
-//        try {
-            createSubclass();
-            return new WebView();
-/*
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-*/
+        createSubclass();
+        return new WebView();
     }
 
     // https://www.ibm.com/developerworks/library/j-dyn0916/index.html
-    // Need to change the method, not override!
     boolean created = false;
     private void createSubclass() {
         if (created) return;
@@ -62,6 +50,9 @@ public class WebViewChanges {
             System.out.println(body);
             newMethod.setBody(body);
             webViewClass.addMethod(newMethod);
+
+
+            CtMethod isTreeReallyVisibleMethod = webViewClass.getDeclaredMethod("isTreeReallyVisible");
         }
         catch (Exception e)
         {

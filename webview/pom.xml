@@ -66,9 +66,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.johanw.stackoverflow.hotel</groupId>
-            <artifactId>hotel-model</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.3</version>
         </dependency>
     </dependencies>
 
