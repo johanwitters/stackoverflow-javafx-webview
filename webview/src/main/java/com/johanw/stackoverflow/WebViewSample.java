@@ -45,16 +45,7 @@
 
             BorderPane borderPane = new BorderPane();
 
-            {
-                Tab tab = new Tab();
-                tab.setText("Browser tab");
-                HBox hbox = new HBox();
-                theBrowser = new TheBrowser();
-                hbox.getChildren().add(theBrowser);
-                hbox.setAlignment(Pos.CENTER);
-                tab.setContent(hbox);
-                tabPane.getTabs().add(tab);
-            }
+            theBrowser = new TheBrowser();
             {
                 Tab tab = new Tab();
                 tab.setText("Other tab");
@@ -112,6 +103,15 @@
                 tab.setContent(vbox);
                 tabPane.getTabs().add(tab);
             }
+            {
+                Tab tab = new Tab();
+                tab.setText("Browser tab");
+                HBox hbox = new HBox();
+                hbox.getChildren().add(theBrowser);
+                hbox.setAlignment(Pos.CENTER);
+                tab.setContent(hbox);
+                tabPane.getTabs().add(tab);
+            }
 
             // bind to take available space
             borderPane.prefHeightProperty().bind(scene.heightProperty());
@@ -130,10 +130,12 @@
 
     class TheBrowser extends Region {
 
-        final WebView browser = new WebView();
-        final WebEngine webEngine = browser.getEngine();
+        final WebView browser;
+        final WebEngine webEngine;
 
         public TheBrowser() {
+            browser = new WebViewChanges().newWebView();
+            webEngine = browser.getEngine();
             getStyleClass().add("browser");
             webEngine.load("http://www.google.com");
             getChildren().add(browser);
